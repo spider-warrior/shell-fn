@@ -16,17 +16,18 @@ function scan_port() {
 	}
 }
 
-ip_addr=39.108.105.130
-batch=3
-begin=$1
-end=$2
+ip_addr=$1
+begin=$2
+end=$3
+
+batch=1000
 
 tmp_fifofile="/tmp/$$.fifo"
 mkfifo $tmp_fifofile      # 新建一个fifo类型的文件
 exec 6<>$tmp_fifofile      # 将fd6指向fifo类型
 rm $tmp_fifofile
 
-thread=5 # 此处定义线程数
+thread=15 # 此处定义线程数
 for ((i=0;i<$thread;i++));do 
 echo
 done >&6 # 事实上就是在fd6中放置了$thread个回车符
@@ -54,4 +55,4 @@ if [ $remain -gt 0 ]; then
 	} &
 fi
 
-echo $(format_msg "扫描完成[$1-$2]")
+echo $(format_msg "扫描完成[$1($2-$3)]")
