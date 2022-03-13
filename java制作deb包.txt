@@ -1,0 +1,20 @@
+参考地址: https://www.xmodulo.com/how-to-create-deb-debian-package-for-java-web-application.html
+
+1.mkdir free-tunnel-client-1.0.0
+2.拷贝libs,free-tunnel-client.jar,free-tunnel-client.sh到free-tunnel-client-1.0.0
+3.dh_make -s --createorig
+4.grep -v makefile debian/rules > debian/rules.temp
+5.mv debian/rules.temp debian/rules
+6.vim debian/install
+	free-tunnel-client.sh /usr/bin
+	free-tunnel-client.jar /var/lib/free-tunnel-client
+	libs /var/lib/free-tunnel-client
+7.echo "1.0" > debian/source/format
+8.rm debian/*.ex
+9.vim debian/control
+	Homepage: https://github.com/spider-warrior
+10.debuild -us -uc
+11.ls ../*deb
+12.sudo dpkg -i free-tunnel-client_1.0.0-1_amd64.deb
+13.apt list --installed|grep free-tunnel-client
+14.free-tunnel-client.sh 192.168.159.1:10086 admin:123456 gEIZCLU+48tkSknFfuE9kBCuKyhOrwnt54mJ3KX+uWE=
